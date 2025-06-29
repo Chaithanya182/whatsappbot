@@ -1,0 +1,111 @@
+Replit Setup Prompt for TeluguPickleBot WhatsApp Chatbot
+Goal: Deploy a simple Node.js webhook that connects with Gupshup WhatsApp API, understands basic Telugu-English messages, and replies automatically.
+
+1. Create a new Node.js project on Replit
+Go to https://replit.com/
+
+Click + Create → Choose Node.js
+
+Name it telugu-pickle-bot
+
+Click Create Repl
+
+2. Add index.js with this code:
+js
+Copy
+Edit
+const express = require('express');
+const axios = require('axios');
+const app = express();
+app.use(express.json());
+
+const GUPSHUP_API_KEY = 'cfpmwgqzd6vyyifaxdhmanmz6q892s9w';  // Replace with your API key
+const SOURCE_NUMBER = '917834811114'; // Your sandbox WhatsApp number (without +)
+const BOT_NAME = 'TeluguPickleBot';
+
+app.post('/webhook', async (req, res) => {
+  const msg = req.body.payload?.payload?.text || '';
+  const phone = req.body.payload?.sender?.phone;
+
+  console.log(`Received message from ${phone}: ${msg}`);
+
+  let reply = "Namaskaaram! Mee pickle kosam em help kavali?";
+
+  if (msg.toLowerCase().includes('mango')) {
+    reply = "Mango pickle 1kg ₹450. Mee peru cheppandi order ki.";
+  } else if (msg.toLowerCase().includes('tomato')) {
+    reply = "Tomato pickle 500g ₹250. Order cheyyali?";
+  } else if (msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('price')) {
+    reply = "Tomato ₹250 (500g), Mango ₹450 (1kg), Gongura ₹400 (500g).";
+  }
+
+  await axios.post('https://api.gupshup.io/sm/api/v1/msg', null, {
+    params: {
+      channel: 'whatsapp',
+      source: SOURCE_NUMBER,
+      destination: phone,
+      message: `text:${reply}`,
+      'src.name': BOT_NAME
+    },
+    headers: {
+      apikey: GUPSHUP_API_KEY
+    }
+  });
+
+  res.sendStatus(200);
+});
+
+app.get('/', (req, res) => {
+  res.send("✅ TeluguPickleBot is live");
+});
+
+app.listen(3000, () => console.log('Bot running on port 3000'));
+3. Create package.json file with this content:
+json
+Copy
+Edit
+{
+  "name": "telugu-pickle-bot",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "express": "^4.18.2"
+  }
+}
+4. Run the app
+Click Run at the top
+
+Wait until you see Bot running on port 3000 in console
+
+5. Get your public URL
+Click the Open in a new tab button near top
+
+Copy the URL, e.g., https://telugu-pickle-bot.yourusername.repl.co
+
+6. Configure webhook in Gupshup
+Go to your Gupshup dashboard → your WhatsApp app → Webhook tab
+
+Paste URL from step 5 and add /webhook at the end:
+
+arduino
+Copy
+Edit
+https://telugu-pickle-bot.yourusername.repl.co/webhook
+Save
+
+7. Test your bot
+From your WhatsApp number registered in sandbox, send a message to the sandbox number.
+
+You should get Telugu-English replies like:
+
+css
+Copy
+Edit
+Mango pickle 1kg ₹450. Mee peru cheppandi order ki.
+Notes:
+Replace the API key and phone number placeholders with your actual values.
+
+Your WhatsApp number must be opted-in by messaging the sandbox number once before testing.
