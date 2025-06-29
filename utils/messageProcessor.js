@@ -8,19 +8,35 @@ class MessageProcessor {
             greeting: ['hello', 'hi', 'namaste', 'namaskar', 'vanakkam', 'hey'],
             pricing: ['price', 'rate', 'cost', 'ela', 'entha', 'amount', 'rupees'],
             order: ['order', 'buy', 'purchase', 'kavali', 'konnali', 'teesuko'],
-            help: ['help', 'cheppu', 'cheppandi', 'guide', 'assist'],
+            help: ['help', 'cheppu', 'cheppandi', 'guide', 'assist', 'menu'],
             products: ['pickle', 'achar', 'pickles', 'varieties'],
             availability: ['available', 'stock', 'ready', 'unda'],
-            delivery: ['delivery', 'deliver', 'reach', 'pampu', 'raavu']
+            delivery: ['delivery', 'deliver', 'reach', 'pampu', 'raavu', 'shipping'],
+            contact: ['contact', 'phone', 'number', 'address', 'location'],
+            veg: ['veg', 'vegetarian', 'pure veg'],
+            nonveg: ['nonveg', 'non veg', 'chicken', 'mutton', 'prawn', 'meat'],
+            spices: ['spices', 'podis', 'karam', 'powder', 'masala']
         };
         
         // Product name variations
         this.productVariations = {
-            'mango': ['mango', 'mamidi', 'mamidikaya', 'aam'],
             'tomato': ['tomato', 'tamata', 'tamatar', 'thakkali'],
-            'gongura': ['gongura', 'gongura', 'pulichakaya', 'ambadi'],
-            'lemon': ['lemon', 'nimma', 'nimbu', 'nimmakaya'],
-            'mixed': ['mixed', 'mix', 'variety', 'varieties', 'kalipi']
+            'gongura': ['gongura', 'pulichakaya', 'ambadi'],
+            'aavakaya': ['aavakaya', 'avakaya', 'mango', 'mamidi', 'mamidikaya', 'aam'],
+            'maagaya': ['maagaya', 'magaya', 'mango'],
+            'chicken_boneless': ['chicken boneless', 'boneless chicken', 'chicken breast', 'boneless'],
+            'tokku_chicken': ['tokku chicken', 'chicken tokku', 'tokku'],
+            'chicken_bone': ['chicken bone', 'bone chicken', 'chicken with bone'],
+            'gongura_chicken': ['gongura chicken', 'chicken gongura'],
+            'mango_chicken': ['mango chicken', 'chicken mango'],
+            'mutton': ['mutton', 'mutton pickle', 'goat', 'lamb'],
+            'regular_prawns': ['prawns', 'prawn', 'regular prawns', 'royyalu'],
+            'vein_free_prawns': ['vein free prawns', 'clean prawns', 'vein free'],
+            'kura_karam': ['kura karam', 'spice powder'],
+            'royyapottu_karappodi': ['royyapottu', 'karappodi', 'prawn powder'],
+            'plain_karappodi': ['plain karappodi', 'karappodi'],
+            'nuvvu_pappu_karappodi': ['nuvvu pappu', 'sesame lentil'],
+            'pachadi_karam': ['pachadi karam', 'pachadi']
         };
     }
     
@@ -134,6 +150,18 @@ class MessageProcessor {
             case 'delivery':
                 return this.responses.delivery.info;
                 
+            case 'contact':
+                return this.responses.contact;
+                
+            case 'veg':
+                return this.getVegPickles();
+                
+            case 'nonveg':
+                return this.getNonVegPickles();
+                
+            case 'spices':
+                return this.getSpices();
+                
             default:
                 if (mentionedProducts.length > 0) {
                     return this.getProductInfo(mentionedProducts[0]);
@@ -230,9 +258,79 @@ class MessageProcessor {
         return response;
     }
     
+    getVegPickles() {
+        let response = "🌶️ Vegetarian Pickles:\n\n";
+        
+        const vegProducts = ['tomato', 'gongura', 'aavakaya', 'maagaya'];
+        for (const productKey of vegProducts) {
+            const product = this.products[productKey];
+            if (product) {
+                response += `🥒 ${product.name}: ₹${product.price}\n`;
+                response += `   ${product.description}\n\n`;
+            }
+        }
+        
+        response += "Emina kavali? Type cheyandi! 💬";
+        return response;
+    }
+    
+    getNonVegPickles() {
+        let response = "🍖 Non-Vegetarian Pickles:\n\n";
+        
+        response += "🐔 Chicken Pickles:\n";
+        const chickenProducts = ['chicken_boneless', 'tokku_chicken', 'chicken_bone', 'gongura_chicken', 'mango_chicken'];
+        for (const productKey of chickenProducts) {
+            const product = this.products[productKey];
+            if (product) {
+                response += `• ${product.name}: ₹${product.price}\n`;
+            }
+        }
+        
+        response += "\n🦐 Prawn Pickles:\n";
+        const prawnProducts = ['regular_prawns', 'vein_free_prawns'];
+        for (const productKey of prawnProducts) {
+            const product = this.products[productKey];
+            if (product) {
+                response += `• ${product.name}: ₹${product.price}\n`;
+            }
+        }
+        
+        response += "\n🐐 Mutton Pickle:\n";
+        const mutton = this.products['mutton'];
+        if (mutton) {
+            response += `• ${mutton.name}: ₹${mutton.price}`;
+            if (mutton.discount) {
+                response += ` (${mutton.discount} - Code: ${mutton.discountCode})`;
+            }
+            response += "\n";
+        }
+        
+        response += "\nEmina kavali? Type cheyandi! 💬";
+        return response;
+    }
+    
+    getSpices() {
+        let response = "🧂 HomeMade Spices & Podis:\n\n";
+        
+        const spiceProducts = ['kura_karam', 'royyapottu_karappodi', 'plain_karappodi', 'nuvvu_pappu_karappodi', 'pachadi_karam'];
+        for (const productKey of spiceProducts) {
+            const product = this.products[productKey];
+            if (product) {
+                response += `🌶️ ${product.name}: ₹${product.price}`;
+                if (product.discount) {
+                    response += ` (${product.discount})`;
+                }
+                response += `\n   ${product.description}\n\n`;
+            }
+        }
+        
+        response += "Traditional spice powders! Emina kavali? 💬";
+        return response;
+    }
+
     shouldIncludeRecommendations(intent, mentionedProducts, session) {
         // Include recommendations for certain intents
-        const recommendationIntents = ['pricing', 'products', 'order'];
+        const recommendationIntents = ['pricing', 'products', 'order', 'veg', 'nonveg', 'spices'];
         
         if (recommendationIntents.includes(intent)) {
             return true;

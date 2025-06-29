@@ -4,7 +4,7 @@ const AbuseDetector = require('./utils/abuseDetector');
 const SessionManager = require('./utils/sessionManager');
 const RecommendationEngine = require('./utils/recommendationEngine');
 const MessageProcessor = require('./utils/messageProcessor');
-const { products } = require('./data/products');
+const { products, businessInfo } = require('./data/products');
 const { responses } = require('./data/responses');
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 // Configuration
 const GUPSHUP_API_KEY = process.env.GUPSHUP_API_KEY || 'cfpmwgqzd6vyyifaxdhmanmz6q892s9w';
 const SOURCE_NUMBER = process.env.SOURCE_NUMBER || '917834811114';
-const BOT_NAME = 'TeluguPickleBot';
+const BOT_NAME = 'Alekhyaa Chitti Pickles Bot';
 const PORT = process.env.PORT || 5000;
 
 // Initialize services
@@ -195,23 +195,48 @@ app.post('/webhook', async (req, res) => {
 app.get('/', (req, res) => {
     const stats = sessionManager.getStats();
     res.json({
-        status: '✅ TeluguPickleBot is live and enhanced!',
+        business: {
+            name: businessInfo.name,
+            status: '✅ WhatsApp Bot Live & Enhanced!',
+            location: businessInfo.location,
+            phone: businessInfo.phone,
+            email: businessInfo.email,
+            customerStats: businessInfo.customerStats
+        },
         timestamp: new Date().toISOString(),
         features: [
+            'Authentic Alekhyaa Chitti Pickles Catalog',
             'Abuse Detection with Telugu Warnings',
             'Personalized Product Recommendations',
             'Session-based User Tracking',
-            'Smart Promotional Offers',
+            'Smart Promotional Offers (Mutton 10% OFF)',
             'Telugu-English Mixed Language Support',
-            'Rate Limiting Protection'
+            'Rate Limiting Protection',
+            'Veg/Non-Veg/Spices Categories'
         ],
+        webhook: {
+            endpoint: '/webhook',
+            method: 'POST',
+            description: 'Gupshup WhatsApp webhook handler'
+        },
         stats: {
             totalSessions: stats.totalSessions,
             activeSessions: stats.activeSessions,
             totalMessages: stats.totalMessages,
             blockedUsers: stats.blockedUsers
         },
-        products: Object.keys(products).length
+        catalog: {
+            totalProducts: Object.keys(products).length,
+            categories: Object.keys(products).reduce((acc, key) => {
+                const category = products[key].category;
+                acc[category] = (acc[category] || 0) + 1;
+                return acc;
+            }, {}),
+            priceRange: {
+                min: Math.min(...Object.values(products).map(p => p.price)),
+                max: Math.max(...Object.values(products).map(p => p.price))
+            }
+        }
     });
 });
 
@@ -236,10 +261,13 @@ app.use((error, req, res, next) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Enhanced TeluguPickleBot running on port ${PORT}`);
-    console.log(`📊 Features: Abuse Detection, Personalized Offers, Smart Recommendations`);
+    console.log(`🚀 ${businessInfo.name} WhatsApp Bot running on port ${PORT}`);
+    console.log(`📊 Features: Authentic Catalog, Abuse Detection, Personalized Offers, Smart Recommendations`);
+    console.log(`🏪 Products: ${Object.keys(products).length} items | Location: ${businessInfo.location}`);
+    console.log(`📞 Contact: ${businessInfo.phone} | Email: ${businessInfo.email}`);
     console.log(`🌐 Health check: http://localhost:${PORT}/`);
     console.log(`📈 Analytics: http://localhost:${PORT}/analytics`);
+    console.log(`🔗 Webhook endpoint: http://localhost:${PORT}/webhook`);
 });
 
 // Graceful shutdown

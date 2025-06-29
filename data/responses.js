@@ -1,16 +1,19 @@
 const responses = {
     greeting: {
-        new: "🙏 Namaskaaram! TeluguPickleBot ki welcome! 🥒\n\nMemu authentic Andhra pickles chestham. Em kavali cheppandi!\n\n📱 Type 'help' for menu.",
-        returning: "🙏 Welcome back! Ela unnaru? 🥒\n\nInko order cheseddam? Em kavali cheppandi!"
+        new: "🙏 Namaskaaram! Alekhyaa Chitti Pickles ki welcome! 🥒\n\nMemu traditional Andhra pickles handcraft chestham - generations nunchi vachina recipes tho!\n\n📱 Type 'help' for menu.\n\n🏆 12,000+ happy customers, 21,000+ orders delivered!",
+        returning: "🙏 Welcome back! Ela unnaru? 🥒\n\nMee favorite pickle inko order cheseddam? Em kavali cheppandi!"
     },
     
     help: {
-        menu: "📋 TeluguPickleBot Help Menu:\n\n" +
-              "🥒 'pickles' - All varieties chudali\n" +
+        menu: "📋 Alekhyaa Chitti Pickles Help Menu:\n\n" +
+              "🥒 'pickles' - All varieties chudali (13+ items)\n" +
               "💰 'prices' - Rate list kavali\n" +
               "🛒 'order [pickle name]' - Order cheyyali\n" +
               "📦 'delivery' - Delivery info\n" +
-              "📞 'contact' - Contact details\n\n" +
+              "📞 'contact' - Contact details\n" +
+              "🌶️ 'veg' - Vegetarian pickles\n" +
+              "🍖 'nonveg' - Non-veg pickles\n" +
+              "🧂 'spices' - HomeMade spices & podis\n\n" +
               "Simply pickle name type cheyandi info kosam!"
     },
     
@@ -26,11 +29,12 @@ const responses = {
     
     delivery: {
         info: "🚚 Delivery Information:\n\n" +
-              "📍 Available Areas: Hyderabad & surroundings\n" +
-              "⏰ Delivery Time: 4-6 hours\n" +
-              "💰 Delivery Charges: ₹50 (Free above ₹500)\n" +
-              "📦 Packaging: Airtight containers\n\n" +
-              "Same day delivery available! 🚀"
+              "📍 Shipping: All over India\n" +
+              "💰 FREE Shipping on orders above ₹2500\n" +
+              "📦 Safe packaging in airtight containers\n" +
+              "⏰ Processing time: 1-2 days\n" +
+              "🏠 Based in: Rajahmundry, East Godavari, AP\n\n" +
+              "Bulk orders accepted! Minimum order: 250g 🥒"
     },
     
     availability: {
@@ -53,10 +57,11 @@ const responses = {
     },
     
     promotions: {
-        welcome: "Welcome offer: First order meedha 10% discount! 🎉\nCode: WELCOME10",
-        loyalty: "Loyalty bonus: Mee regular orders ki special discount! 🌟\nNext order meedha 15% OFF!",
-        bulk: "Bulk order special: 3+ pickles order chesthe 20% discount! 💰",
-        festival: "Festival special offer running! Contact cheyandi details kosam! 🎊"
+        welcome: "Welcome offer: First order meedha special discount! 🎉\nFree shipping above ₹2500!",
+        loyalty: "Loyalty bonus: Mee regular orders ki special discount! 🌟\n12,000+ customers trust us!",
+        bulk: "Bulk order special: Large quantities ki better rates! 💰\nContact cheyandi wholesale prices kosam!",
+        festival: "Festival special: Mutton pickle meedha 10% OFF! 🎊\nCode: SAVE10",
+        mutton: "Special offer: Mutton pickle meedha 10% discount! 🔥\nCode: SAVE10 - Limited time!"
     },
     
     recommendations: {
@@ -83,12 +88,13 @@ const responses = {
             "Professional ga matladataniki ready ayyaka contact cheyandi. ⏰\n\n" +
             "24 hours wait cheyandi please. 🙏",
     
-    contact: "📞 Contact Details:\n\n" +
-            "📱 WhatsApp: Same number\n" +
-            "📧 Email: info@telugupickles.com\n" +
-            "📍 Address: Hyderabad, Telangana\n" +
-            "⏰ Timing: 9 AM - 8 PM\n\n" +
-            "Direct call cheyyochu! 📞"
+    contact: "📞 Alekhyaa Chitti Pickles Contact:\n\n" +
+            "📱 Phone: +91 7305607487\n" +
+            "📧 Email: contact@chittipickles.in\n" +
+            "🌐 Website: www.chittipickles.in\n" +
+            "📍 Address: Rajahmundry, East Godavari, AP 533101\n" +
+            "⏰ Support: 24/7 available\n\n" +
+            "Direct call cheyyochu! WhatsApp kuda available! 📞"
 };
 
 module.exports = {
